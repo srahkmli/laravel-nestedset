@@ -14,8 +14,12 @@ class CreateShopsTable extends Migration
     public function up()
     {
         Schema::create('shops', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->string('category_name');
+            // NestedSet::columns($table); //Last version of laravel 5.5 with this command
+            $table->nestedSet();
             $table->timestamps();
+
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Shop;
 use Illuminate\Database\Seeder;
 
 class User extends Seeder
@@ -58,7 +59,8 @@ class User extends Seeder
             ],
         ];
 
-
-        \App\Models\Shop::create($shops);
+        foreach ($shops as $shop) {
+            Shop::create($shop);
+        }
     }
 }
