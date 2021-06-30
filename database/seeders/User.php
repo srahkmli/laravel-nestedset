@@ -2,7 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Address;
+use App\Models\Customer;
+use App\Models\Internet;
+use App\Models\Order;
 use App\Models\Shop;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class User extends Seeder
@@ -57,10 +62,46 @@ class User extends Seeder
                     ],
                 ],
             ],
+            [
+                'category_name' => 'House',
+                'children' => [
+                    [
+                        'category_name' => 'Apartment',
+                        'children' => [
+                            ['category_name' => 'with Bedroom'],
+                            ['category_name' => 'Balcony'],
+                        ],
+                    ],
+                    [
+                        'category_name' => 'Compony Building',
+                        'children' => [
+                            ['category_name' => 'sale'],
+                            ['category_name' => 'rent'],
+                        ],
+                    ],
+                ],
+            ],
+
         ];
 
         foreach ($shops as $shop) {
             Shop::create($shop);
         }
+
+
+        /*---         ---*/
+
+        Customer::factory()->count(20)->create();
+        Address::factory()->count(20)->create();
+
+        for ($i = 1; $i < 25; $i++) {
+
+            Order::factory()->count(rand(1, 5))
+                ->state(new Sequence(
+                    fn () => ['customer_id' => Customer::all()->random()],
+                    ['address_id' => Address::all()->random()],
+                ))->create();
+        }
+         /*---         ---*/
     }
 }
